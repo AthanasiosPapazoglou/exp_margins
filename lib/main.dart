@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'main_menu.dart';
+
 void main() {
-  runApp(ExpenseMargins());
+  runApp(const ExpenseMargins());
 }
 
 class ExpenseMargins extends StatelessWidget {
@@ -9,11 +11,22 @@ class ExpenseMargins extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const Icon(Icons.arrow_back),
+    return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+      
+       primaryColor: Colors.green.shade400,
+       scaffoldBackgroundColor: Colors.white,
       ),
-      body: Mai,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,),
+        ),
+        body: const MainMenu(),
+      ),
     );
   }
 }
