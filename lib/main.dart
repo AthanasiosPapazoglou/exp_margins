@@ -15,15 +15,15 @@ class ExpenseMargins extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
       
        primaryColor: Colors.green.shade400,
-       scaffoldBackgroundColor: Colors.white,
+       scaffoldBackgroundColor: Colors.blueGrey.shade900,
       ),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.blueGrey.shade900,
           elevation: 0,
           leading: const Icon(
             Icons.arrow_back,
-            color: Colors.black,),
+            color: Colors.white,),
         ),
         body: const MainMenu(),
       ),

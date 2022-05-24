@@ -52,7 +52,7 @@ class _MainMenuState extends State<MainMenu> {
         currentIndex: _selectedIndex,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
         onTap: onNavBarTap,
       ),
     );
