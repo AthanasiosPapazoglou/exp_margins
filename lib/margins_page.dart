@@ -65,15 +65,14 @@ class MarginsPage extends StatelessWidget {
                 child: TweenAnimationBuilder<double>(
                   duration: Duration(seconds: 2),
                   tween: Tween<double>(begin: 1, end: dummyPercentage[index]),
-                  builder: (BuildContext context, double value, Widget? child){
-                     return Container(
-                        width: MediaQuery.of(context).size.width *
-                            value,
-                        height: 64,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: dummyColor[index]),
-                      );
+                  builder: (BuildContext context, double value, Widget? child) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width * value,
+                      height: 64,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: dummyColor[index]),
+                    );
                   },
                 ),
               ),
@@ -85,24 +84,33 @@ class MarginsPage extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Icon(
-                          dummyIcons[index], 
+                          dummyIcons[index],
                           color: Colors.black,
-                          size: 25,),
+                          size: 25,
+                        ),
                         SizedBox(width: 6),
                         Text(
                           dummyCategories[index],
                           style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20),
+                              color: Colors.black, fontSize: 20),
                         ),
                       ],
                     ),
-                    Text(
-                      '120',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
+                    TweenAnimationBuilder<double>(
+                      duration: Duration(seconds: 2),
+                      tween: Tween<double>(
+                          begin: 120, end: dummyPercentage[index] * 120),
+                      builder:
+                          (BuildContext context, double val2, Widget? child) {
+                        int displayValue = val2.toInt();
+                        return Text(
+                          '$displayValue/120',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                        );
+                      },
                     )
                   ],
                 ),
