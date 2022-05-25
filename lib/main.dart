@@ -1,4 +1,6 @@
+import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'main_menu.dart';
 
@@ -11,21 +13,25 @@ class ExpenseMargins extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-      
-       primaryColor: Colors.green.shade400,
-       scaffoldBackgroundColor: Colors.blueGrey.shade900,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blueGrey.shade900,
-          elevation: 0,
-          leading: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,),
+    return ChangeNotifierProvider(
+      create: (ctx) => DataProviding(),
+
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+         primaryColor: Colors.green.shade400,
+         scaffoldBackgroundColor: Colors.blueGrey.shade900,
         ),
-        body: const MainMenu(),
+        home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.blueGrey.shade900,
+            elevation: 0,
+            leading: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,),
+          ),
+          body: const MainMenu(),
+        ),
       ),
     );
   }
