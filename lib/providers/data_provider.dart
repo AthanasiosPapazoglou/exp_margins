@@ -8,7 +8,7 @@ class DataProviding extends ChangeNotifier {
     'Clothing',
     'Coffee',
     'Snacks',
-    'Gas'
+    'Gas',
   ];
 
   final List<Color> categoryColors = [
@@ -17,7 +17,7 @@ class DataProviding extends ChangeNotifier {
     Colors.blue,
     Colors.yellow,
     Colors.orange,
-    Colors.purple
+    Colors.purple,
   ];
 
   final List<IconData> categoryIcons = [
@@ -26,7 +26,7 @@ class DataProviding extends ChangeNotifier {
     Icons.shopping_bag,
     Icons.coffee,
     Icons.fastfood_rounded,
-    Icons.local_gas_station
+    Icons.local_gas_station,
   ];
 
   final List<double> categoryPercentiles = [
