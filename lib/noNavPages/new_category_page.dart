@@ -68,90 +68,84 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
 
   //!Widet Tree end
 
-
-
   //?Building Block Methods
 
-  Column nameSelectionRow(BuildContext context, DataProviding currentData) {
-    return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                editFieldOptionsText('Name:'),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Container(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 6, 16, 6),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: 'Give a category name:',
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: InputBorder.none),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                        controller: _controller,
-                        onFieldSubmitted: (value) {
-                          setState(
-                            () {
-                              _selectedCategoryName = value;
-                              _controller.clear();
-                            },
-                          );
-                        },
-                      ),
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      width: MediaQuery.of(context).size.width * 0.6),
-                )
-              ],
-            ),
-          ],
-        );
+  Row nameSelectionRow(BuildContext context, DataProviding currentData) {
+    return
+        Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        editFieldOptionsText('Name:'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Container(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 6, 16, 6),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    hintText: 'Give a category name:',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+                controller: _controller,
+                onFieldSubmitted: (value) {
+                  setState(
+                    () {
+                      _selectedCategoryName = value;
+                      _controller.clear();
+                    },
+                  );
+                },
+              ),
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              width: MediaQuery.of(context).size.width * 0.6),
+        )
+      ],
+    );
   }
 
   Row colorSelectionRow(BuildContext context, DataProviding currentData) {
     return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                editFieldOptionsText('Color:'),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: 40,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: currentData.availableColors.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(
-                              () {
-                                _selectedCategoryColor =
-                                    currentData.availableColors[index];
-                              },
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              color: currentData.availableColors[index],
-                            ),
-                          ),
-                        );
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        editFieldOptionsText('Color:'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: currentData.availableColors.length,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(
+                      () {
+                        _selectedCategoryColor =
+                            currentData.availableColors[index];
                       },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      color: currentData.availableColors[index],
                     ),
                   ),
-                ),
-              ],
-            );
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Align pageSectionHeader(String title) {
