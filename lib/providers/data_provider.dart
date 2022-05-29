@@ -37,4 +37,18 @@ class DataProviding extends ChangeNotifier {
     .55,
     .35,
   ];
+
+  final List<Color> availableColors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+    Colors.orange,
+    Colors.purple,
+    Colors.pink,
+    Colors.teal,
+    Colors.green.shade900,
+    Colors.lightBlue,
+    Colors.deepOrange,
+  ];
 }

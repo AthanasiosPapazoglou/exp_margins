@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
@@ -32,10 +30,16 @@ class _MainMenuState extends State<MainMenu> {
         children: <Widget>[
           MarginsPage(),
           Center(
-            child: Text('Flows', style: TextStyle(color: Colors.black),),
+            child: Text(
+              'Flows',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           Center(
-            child: Text('Edit', style: TextStyle(color: Colors.black),),
+            child: Text(
+              'Edit',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
         onPageChanged: onNavBarTap,
