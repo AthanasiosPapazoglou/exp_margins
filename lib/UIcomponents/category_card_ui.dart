@@ -1,21 +1,21 @@
-
 // ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-
 class CategoryItemUI extends StatelessWidget {
   const CategoryItemUI({
     Key? key,
+    required this.marginAmount,
+    required this.remainingAmount,
     required this.cardColor,
-    required this.remainingPercentage,
     required this.categoryIcon,
     required this.categoryName,
   }) : super(key: key);
 
+  final double marginAmount;
+  final double remainingAmount;
   final Color cardColor;
-  final double remainingPercentage;
   final IconData categoryIcon;
   final String categoryName;
 
@@ -39,7 +39,7 @@ class CategoryItemUI extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: TweenAnimationBuilder<double>(
               duration: Duration(milliseconds: 1500),
-              tween: Tween<double>(begin: 1, end: remainingPercentage),
+              tween: Tween<double>(begin: 1.0, end: remainingAmount/marginAmount),
               builder: (BuildContext context, double val1, Widget? child) {
                 return Container(
                   width: MediaQuery.of(context).size.width * val1,
@@ -73,11 +73,11 @@ class CategoryItemUI extends StatelessWidget {
                 TweenAnimationBuilder<double>(
                   duration: Duration(milliseconds: 1500),
                   tween:
-                      Tween<double>(begin: 120, end: remainingPercentage * 120),
+                      Tween<double>(begin: marginAmount, end: remainingAmount),
                   builder: (BuildContext context, double val2, Widget? child) {
                     String displayValue = val2.toStringAsFixed(2);
                     return Text(
-                      '$displayValue/120',
+                      '$displayValue/$marginAmount',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,

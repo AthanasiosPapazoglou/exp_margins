@@ -22,8 +22,9 @@ class MarginsPage extends StatelessWidget {
             itemCount: currentData.categoryNames.length,
             itemBuilder: (BuildContext context, int index) {
               return CategoryItemUI(
+                marginAmount: currentData.marginAmountList[index],
+                remainingAmount: currentData.remainingAmountList[index],
                 cardColor: currentData.categoryColors[index],
-                remainingPercentage: currentData.categoryPercentiles[index],
                 categoryIcon: currentData.categoryIcons[index],
                 categoryName: currentData.categoryNames[index],
               );

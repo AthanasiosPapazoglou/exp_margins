@@ -29,6 +29,17 @@ class DataProviding extends ChangeNotifier {
     Icons.local_gas_station,
   ];
 
+  final List<double> marginAmountList = [150.0, 120.0, 90.0, 110.0, 175.0, 55.0];
+
+  final List<double> remainingAmountList = [
+    125.0,
+    59.0,
+    45.0,
+    75.0,
+    50.0,
+    10.0
+  ];
+
   final List<double> categoryPercentiles = [
     .8,
     .65,
@@ -50,5 +61,19 @@ class DataProviding extends ChangeNotifier {
     Colors.green.shade900,
     Colors.lightBlue,
     Colors.deepOrange,
+  ];
+
+  final List<IconData> availableIcons = [
+    Icons.shopping_cart_outlined,
+    Icons.food_bank_outlined,
+    Icons.shopping_bag,
+    Icons.coffee,
+    Icons.fastfood_rounded,
+    Icons.local_gas_station,
+    Icons.accessibility_new_sharp,
+    Icons.phone_android_outlined,
+    Icons.local_drink_outlined,
+    Icons.notes_outlined,
+    Icons.account_circle_sharp,
   ];
 }

@@ -3,6 +3,7 @@
 import 'package:exp_margins/UIcomponents/category_card_ui.dart';
 import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class NewCategoryPage extends StatefulWidget {
@@ -12,9 +13,17 @@ class NewCategoryPage extends StatefulWidget {
   State<NewCategoryPage> createState() => _NewCategoryPageState();
 }
 
-TextEditingController _controller = TextEditingController();
+TextEditingController _nameController = TextEditingController();
 String _selectedCategoryName = 'Category Name';
+
+TextEditingController _marginController = TextEditingController();
+double _selectedMarginAmount = 120.00;
+
+TextEditingController _remainingController = TextEditingController();
+double _selectedRemainingAmount = 60.00;
+
 Color _selectedCategoryColor = Colors.white;
+IconData _selectedCategoryIcon = Icons.account_circle_sharp;
 
 class _NewCategoryPageState extends State<NewCategoryPage> {
   @override
@@ -51,16 +60,61 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
         children: <Widget>[
           pageSectionHeader('Preview'),
           CategoryItemUI(
+              marginAmount: _selectedMarginAmount,
+              remainingAmount: _selectedRemainingAmount,
               cardColor: _selectedCategoryColor,
-              remainingPercentage: 0.5,
-              categoryIcon: Icons.account_circle_sharp,
+              categoryIcon: _selectedCategoryIcon,
               categoryName: _selectedCategoryName),
           pageSectionHeader('Edit'),
           nameSelectionRow(context, currentData),
-          editFieldOptionsText('Icon:'),
+          iconSelectionRow(context, currentData),
           colorSelectionRow(context, currentData),
-          editFieldOptionsText('Margin Cost:'),
-          editFieldOptionsText('Remaining Budget:')
+          marginSelectionRow(context, currentData),
+          remainingSelectionRow(context, currentData),
+          (_selectedCategoryName != null 
+          && _selectedCategoryName != ''
+          && _selectedCategoryName != 'Category Name'
+          && _selectedMarginAmount >= _selectedRemainingAmount)
+          ? Center(
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+              child: Container(
+                height: 48,
+                width: MediaQuery.of(context).size.width * .4,
+                child: Center(
+                  child: Text('+ Add Expense',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                  ),),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade400,
+                  borderRadius: BorderRadius.circular(20)
+                ),
+              ),
+            ),
+          )
+          : Center(
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+              child: Container(
+                height: 48,
+                width: MediaQuery.of(context).size.width * .4,
+                child: Center(
+                  child: Text('+ Add Expense',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                  ),),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(20)
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -70,9 +124,124 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
 
   //?Building Block Methods
 
+  Row remainingSelectionRow(BuildContext context, DataProviding currentData) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        editFieldOptionsText('Remaining Budget:'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Container(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 6, 16, 6),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    hintText: '€/\$/£',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+                controller: _remainingController,
+                onFieldSubmitted: (value) {
+                  setState(
+                    () {
+                      _selectedRemainingAmount = double.parse(value);
+                      _remainingController.clear();
+                    },
+                  );
+                },
+              ),
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              width: MediaQuery.of(context).size.width * 0.3),
+        ),
+      ],
+    );
+  }
+
+  Row marginSelectionRow(BuildContext context, DataProviding currentData) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        editFieldOptionsText('Margin Cost:'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Container(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 6, 16, 6),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    hintText: '€/\$/£',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+                controller: _marginController,
+                onFieldSubmitted: (value) {
+                  setState(
+                    () {
+                      _selectedMarginAmount = double.parse(value);
+                      _marginController.clear();
+                    },
+                  );
+                },
+              ),
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              width: MediaQuery.of(context).size.width * 0.3),
+        )
+      ],
+    );
+  }
+
+  Row iconSelectionRow(BuildContext context, DataProviding currentData) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        editFieldOptionsText('Icon:'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: currentData.availableIcons.length,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(
+                      () {
+                        _selectedCategoryIcon =
+                            currentData.availableIcons[index];
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      child: Icon(currentData.availableIcons[index]),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Row nameSelectionRow(BuildContext context, DataProviding currentData) {
-    return
-        Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         editFieldOptionsText('Name:'),
@@ -87,12 +256,12 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                     border: InputBorder.none),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
-                controller: _controller,
+                controller: _nameController,
                 onFieldSubmitted: (value) {
                   setState(
                     () {
                       _selectedCategoryName = value;
-                      _controller.clear();
+                      _nameController.clear();
                     },
                   );
                 },
@@ -120,7 +289,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             height: 40,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: currentData.availableColors.length,
+              itemCount: currentData.availableIcons.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
