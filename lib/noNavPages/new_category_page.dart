@@ -55,8 +55,8 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           pageSectionHeader('Preview'),
           CategoryItemUI(
@@ -253,7 +253,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 decoration: InputDecoration(
                     hintText: 'Give a category name:',
                     hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none),
+                    border: InputBorder.none,),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
                 controller: _nameController,
@@ -305,7 +305,10 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                     child: Container(
                       width: 30,
                       height: 30,
-                      color: currentData.availableColors[index],
+                      decoration: BoxDecoration(
+                        color: currentData.availableColors[index],
+                        borderRadius: BorderRadius.circular(90)
+                      ),
                     ),
                   ),
                 );
