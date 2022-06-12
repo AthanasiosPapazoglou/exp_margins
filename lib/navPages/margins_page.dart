@@ -5,6 +5,7 @@ import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../UIcomponents/category_card_ui.dart';
 
@@ -21,12 +22,44 @@ class MarginsPage extends StatelessWidget {
           child: ListView.builder(
             itemCount: currentData.categoryNames.length,
             itemBuilder: (BuildContext context, int index) {
-              return CategoryItemUI(
-                marginAmount: currentData.marginAmountList[index],
-                remainingAmount: currentData.remainingAmountList[index],
-                cardColor: currentData.categoryColors[index],
-                categoryIcon: currentData.categoryIcons[index],
-                categoryName: currentData.categoryNames[index],
+              return Slidable(
+                key: const ValueKey(0),
+                startActionPane: ActionPane(
+                  dragDismissible: false,
+                  motion: const DrawerMotion(),
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  children: <Widget>[
+                    SlidableAction(
+                      onPressed: (_) {},
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      icon: Icons.delete,
+                      label: 'Edit',
+                    ),
+                  ],
+                ),
+                endActionPane: ActionPane(
+                  motion: const DrawerMotion(),
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  children: <Widget>[
+                    SlidableAction(
+                      onPressed: (_) {},
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
+                ),
+                child: CategoryItemUI(
+                  marginAmount: currentData.marginAmountList[index],
+                  remainingAmount: currentData.remainingAmountList[index],
+                  cardColor: currentData.categoryColors[index],
+                  categoryIcon: currentData.categoryIcons[index],
+                  categoryName: currentData.categoryNames[index],
+                ),
               );
             },
           ),
