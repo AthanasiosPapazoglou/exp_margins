@@ -50,6 +50,7 @@ class DataProviding extends ChangeNotifier {
   ];
 
   final List<Color> availableColors = [
+    Colors.white,
     Colors.red,
     Colors.green,
     Colors.blue,
@@ -64,6 +65,7 @@ class DataProviding extends ChangeNotifier {
   ];
 
   final List<IconData> availableIcons = [
+    Icons.account_circle_sharp,
     Icons.shopping_cart_outlined,
     Icons.food_bank_outlined,
     Icons.shopping_bag,

@@ -7,7 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class NewCategoryPage extends StatefulWidget {
-  const NewCategoryPage({Key? key}) : super(key: key);
+  const NewCategoryPage({
+    Key? key,
+    this.isEdit = false,
+    this.categoryLocationIndex = -1,
+  }) : super(key: key);
+
+  final bool isEdit;
+  final int categoryLocationIndex;
 
   @override
   State<NewCategoryPage> createState() => _NewCategoryPageState();
@@ -17,10 +24,10 @@ TextEditingController _nameController = TextEditingController();
 String _selectedCategoryName = 'Category Name';
 
 TextEditingController _marginController = TextEditingController();
-double _selectedMarginAmount = 120.00;
+double _selectedMarginAmount = 100.00;
 
 TextEditingController _remainingController = TextEditingController();
-double _selectedRemainingAmount = 60.00;
+double _selectedRemainingAmount = 50.00;
 
 Color _selectedCategoryColor = Colors.white;
 IconData _selectedCategoryIcon = Icons.account_circle_sharp;
@@ -32,8 +39,34 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   }
 
   @override
+  void dispose() {
+    //   super.dispose();
+    //   _nameController.dispose();
+    //   _marginController.dispose();
+    //   _remainingController.dispose();
+    super.dispose();
+    _selectedCategoryName = 'Category Name';
+    _selectedMarginAmount = 100.00;
+    _selectedRemainingAmount = 50.00;
+    _selectedCategoryColor = Colors.white;
+    _selectedCategoryIcon = Icons.account_circle_sharp;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final currentData = Provider.of<DataProviding>(context);
+    if (widget.isEdit && widget.categoryLocationIndex != -1) {
+      _selectedCategoryName =
+          currentData.categoryNames[widget.categoryLocationIndex];
+      _selectedMarginAmount =
+          currentData.marginAmountList[widget.categoryLocationIndex];
+      _selectedRemainingAmount =
+          currentData.remainingAmountList[widget.categoryLocationIndex];
+      _selectedCategoryColor =
+          currentData.availableColors[widget.categoryLocationIndex];
+      _selectedCategoryIcon =
+          currentData.availableIcons[widget.categoryLocationIndex];
+    }
 
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade900,
@@ -60,61 +93,65 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
         children: <Widget>[
           pageSectionHeader('Preview'),
           CategoryItemUI(
-              marginAmount: _selectedMarginAmount,
-              remainingAmount: _selectedRemainingAmount,
-              cardColor: _selectedCategoryColor,
-              categoryIcon: _selectedCategoryIcon,
-              categoryName: _selectedCategoryName),
+            locationIndex: widget.categoryLocationIndex,
+            marginAmount: _selectedMarginAmount,
+            remainingAmount: _selectedRemainingAmount,
+            cardColor: _selectedCategoryColor,
+            categoryIcon: _selectedCategoryIcon,
+            categoryName: _selectedCategoryName,
+          ),
           pageSectionHeader('Edit'),
           nameSelectionRow(context, currentData),
           iconSelectionRow(context, currentData),
           colorSelectionRow(context, currentData),
           marginSelectionRow(context, currentData),
           remainingSelectionRow(context, currentData),
-          (_selectedCategoryName != null 
-          && _selectedCategoryName != ''
-          && _selectedCategoryName != 'Category Name'
-          && _selectedMarginAmount >= _selectedRemainingAmount)
-          ? Center(
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-              child: Container(
-                height: 48,
-                width: MediaQuery.of(context).size.width * .4,
-                child: Center(
-                  child: Text('+ Add Expense',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                  ),),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade400,
-                  borderRadius: BorderRadius.circular(20)
-                ),
-              ),
-            ),
-          )
-          : Center(
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-              child: Container(
-                height: 48,
-                width: MediaQuery.of(context).size.width * .4,
-                child: Center(
-                  child: Text('+ Add Expense',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                  ),),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(20)
-                ),
-              ),
-            ),
-          )
+          (_selectedCategoryName != null &&
+                  _selectedCategoryName != '' &&
+                  _selectedCategoryName != 'Category Name' &&
+                  _selectedMarginAmount >= _selectedRemainingAmount)
+              ? Center(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    child: Container(
+                      height: 48,
+                      width: MediaQuery.of(context).size.width * .4,
+                      child: Center(
+                        child: Text(
+                          '+ Add Expense',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.green.shade400,
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                  ),
+                )
+              : Center(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    child: Container(
+                      height: 48,
+                      width: MediaQuery.of(context).size.width * .4,
+                      child: Center(
+                        child: Text(
+                          '+ Add Expense',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                  ),
+                )
         ],
       ),
     );
@@ -228,7 +265,13 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                     child: Container(
                       width: 30,
                       height: 30,
-                      child: Icon(currentData.availableIcons[index]),
+                      child: Icon(
+                        currentData.availableIcons[index],
+                        color: (currentData.availableIcons[index] ==
+                                _selectedCategoryIcon)
+                            ? Colors.green.shade400
+                            : Colors.white,
+                      ),
                     ),
                   ),
                 );
@@ -251,9 +294,10 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               padding: EdgeInsetsDirectional.fromSTEB(16, 6, 16, 6),
               child: TextFormField(
                 decoration: InputDecoration(
-                    hintText: 'Give a category name:',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,),
+                  hintText: 'Give a category name:',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none,
+                ),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
                 controller: _nameController,
@@ -306,9 +350,12 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                       width: 30,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: currentData.availableColors[index],
-                        borderRadius: BorderRadius.circular(90)
-                      ),
+                          border: (currentData.availableColors[index] ==
+                                  _selectedCategoryColor)
+                              ? Border.all(color: Colors.black, width: 2)
+                              : null,
+                          color: currentData.availableColors[index],
+                          borderRadius: BorderRadius.circular(90)),
                     ),
                   ),
                 );

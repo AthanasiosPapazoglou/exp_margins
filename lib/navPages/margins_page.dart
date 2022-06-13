@@ -31,20 +31,6 @@ class MarginsPage extends StatelessWidget {
                   children: <Widget>[
                     SlidableAction(
                       onPressed: (_) {},
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      icon: Icons.delete,
-                      label: 'Edit',
-                    ),
-                  ],
-                ),
-                endActionPane: ActionPane(
-                  motion: const DrawerMotion(),
-                  dismissible: DismissiblePane(onDismissed: () {}),
-                  children: <Widget>[
-                    SlidableAction(
-                      onPressed: (_) {},
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -54,6 +40,7 @@ class MarginsPage extends StatelessWidget {
                   ],
                 ),
                 child: CategoryItemUI(
+                  locationIndex: index,
                   marginAmount: currentData.marginAmountList[index],
                   remainingAmount: currentData.remainingAmountList[index],
                   cardColor: currentData.categoryColors[index],
