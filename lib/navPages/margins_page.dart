@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:exp_margins/noNavPages/new_category_page.dart';
+import 'package:exp_margins/noNavPages/new_edit_category_page.dart';
 import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -20,7 +20,7 @@ class MarginsPage extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.builder(
-            itemCount: currentData.categoryNames.length,
+            itemCount: currentData.savedCategories.length,
             itemBuilder: (BuildContext context, int index) {
               return Slidable(
                 key: const ValueKey(0),
@@ -41,11 +41,11 @@ class MarginsPage extends StatelessWidget {
                 ),
                 child: CategoryItemUI(
                   locationIndex: index,
-                  marginAmount: currentData.marginAmountList[index],
-                  remainingAmount: currentData.remainingAmountList[index],
-                  cardColor: currentData.categoryColors[index],
-                  categoryIcon: currentData.categoryIcons[index],
-                  categoryName: currentData.categoryNames[index],
+                  marginAmount: currentData.savedCategories[index].marginAmount,
+                  remainingAmount: currentData.savedCategories[index].remainingAmount,
+                  cardColor: currentData.savedCategories[index].color,
+                  categoryIcon: currentData.savedCategories[index].icon,
+                  categoryName: currentData.savedCategories[index].name,
                 ),
               );
             },
@@ -58,7 +58,7 @@ class MarginsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const NewCategoryPage()),
+                    builder: (context) => const NewOrEditCategoryPage()),
               );
             },
             child: Container(

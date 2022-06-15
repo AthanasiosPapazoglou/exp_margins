@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, file_names
 
-import 'package:exp_margins/noNavPages/new_category_page.dart';
+import 'package:exp_margins/noNavPages/new_edit_category_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -29,7 +29,7 @@ class CategoryItemUI extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NewCategoryPage(
+            builder: (context) => NewOrEditCategoryPage(
               isEdit: true,
               categoryLocationIndex: locationIndex,
             ),

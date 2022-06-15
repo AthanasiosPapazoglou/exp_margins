@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:exp_margins/UIcomponents/category_card_ui.dart';
+import 'package:exp_margins/models/category_model.dart';
 import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class NewCategoryPage extends StatefulWidget {
-  const NewCategoryPage({
+class NewOrEditCategoryPage extends StatefulWidget {
+  const NewOrEditCategoryPage({
     Key? key,
     this.isEdit = false,
     this.categoryLocationIndex = -1,
@@ -17,7 +18,7 @@ class NewCategoryPage extends StatefulWidget {
   final int categoryLocationIndex;
 
   @override
-  State<NewCategoryPage> createState() => _NewCategoryPageState();
+  State<NewOrEditCategoryPage> createState() => _NewOrEditCategoryPageState();
 }
 
 TextEditingController _nameController = TextEditingController();
@@ -32,7 +33,7 @@ double _selectedRemainingAmount = 50.00;
 Color _selectedCategoryColor = Colors.white;
 IconData _selectedCategoryIcon = Icons.account_circle_sharp;
 
-class _NewCategoryPageState extends State<NewCategoryPage> {
+class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
   @override
   void initState() {
     super.initState();
@@ -57,15 +58,15 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     final currentData = Provider.of<DataProviding>(context);
     if (widget.isEdit && widget.categoryLocationIndex != -1) {
       _selectedCategoryName =
-          currentData.categoryNames[widget.categoryLocationIndex];
-      _selectedMarginAmount =
-          currentData.marginAmountList[widget.categoryLocationIndex];
-      _selectedRemainingAmount =
-          currentData.remainingAmountList[widget.categoryLocationIndex];
+          currentData.savedCategories[widget.categoryLocationIndex].name;
+      _selectedMarginAmount = currentData
+          .savedCategories[widget.categoryLocationIndex].marginAmount;
+      _selectedRemainingAmount = currentData
+          .savedCategories[widget.categoryLocationIndex].remainingAmount;
       _selectedCategoryColor =
-          currentData.availableColors[widget.categoryLocationIndex];
+          currentData.savedCategories[widget.categoryLocationIndex].color;
       _selectedCategoryIcon =
-          currentData.availableIcons[widget.categoryLocationIndex];
+          currentData.savedCategories[widget.categoryLocationIndex].icon;
     }
 
     return Scaffold(
@@ -110,24 +111,38 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                   _selectedCategoryName != '' &&
                   _selectedCategoryName != 'Category Name' &&
                   _selectedMarginAmount >= _selectedRemainingAmount)
-              ? Center(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                    child: Container(
-                      height: 48,
-                      width: MediaQuery.of(context).size.width * .4,
-                      child: Center(
-                        child: Text(
-                          '+ Add Expense',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
+              ? GestureDetector(
+                  onTap: () {
+                    currentData.savedCategories.add(
+                      CategoryItemDataEntity(
+                          name: _selectedCategoryName,
+                          color: _selectedCategoryColor,
+                          icon: _selectedCategoryIcon,
+                          marginAmount: _selectedMarginAmount,
+                          remainingAmount: _selectedRemainingAmount),
+                    );
+                    currentData.notifyListeners();
+                    Navigator.pop(context);
+                  },
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: Container(
+                        height: 48,
+                        width: MediaQuery.of(context).size.width * .4,
+                        child: Center(
+                          child: Text(
+                            '+ Add Expense',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                            ),
                           ),
                         ),
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade400,
+                            borderRadius: BorderRadius.circular(20)),
                       ),
-                      decoration: BoxDecoration(
-                          color: Colors.green.shade400,
-                          borderRadius: BorderRadius.circular(20)),
                     ),
                   ),
                 )
