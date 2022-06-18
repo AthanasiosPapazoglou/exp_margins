@@ -26,15 +26,15 @@ class CategoryItemUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NewOrEditCategoryPage(
-              isEdit: true,
-              categoryLocationIndex: locationIndex,
-            ),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => NewOrEditCategoryPage(
+        //       isEdit: true,
+        //       categoryLocationIndex: locationIndex,
+        //     ),
+        //   ),
+        // );
       },
       onDoubleTap: () {},
       child: Padding(

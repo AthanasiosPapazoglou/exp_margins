@@ -18,39 +18,83 @@ class MarginsPage extends StatelessWidget {
 
     return Column(
       children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: currentData.savedCategories.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Slidable(
-                key: const ValueKey(0),
-                startActionPane: ActionPane(
-                  dragDismissible: false,
-                  motion: const DrawerMotion(),
-                  dismissible: DismissiblePane(onDismissed: () {}),
-                  children: <Widget>[
-                    SlidableAction(
-                      onPressed: (_) {},
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      icon: Icons.delete,
-                      label: 'Delete',
+        (currentData.savedCategories.length == 0)
+            ? Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Begin setting up your expense margin categories by taping the (+) button',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 16, color: Colors.green.shade400),
                     ),
-                  ],
+                  ),
                 ),
-                child: CategoryItemUI(
-                  locationIndex: index,
-                  marginAmount: currentData.savedCategories[index].marginAmount,
-                  remainingAmount: currentData.savedCategories[index].remainingAmount,
-                  cardColor: currentData.savedCategories[index].color,
-                  categoryIcon: currentData.savedCategories[index].icon,
-                  categoryName: currentData.savedCategories[index].name,
+              )
+            : Expanded(
+                child: ListView.builder(
+                  itemCount: currentData.savedCategories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Slidable(
+                      key: const ValueKey(0),
+                      endActionPane: ActionPane(
+                        dragDismissible: false,
+                        motion: const DrawerMotion(),
+                        dismissible: DismissiblePane(onDismissed: () {}),
+                        children: <Widget>[
+                          SlidableAction(
+                            onPressed: (_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NewOrEditCategoryPage(
+                                    isEdit: true,
+                                    categoryLocationIndex: index,
+                                  ),
+                                ),
+                              );
+                            },
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            icon: Icons.edit,
+                            label: 'Edit',
+                          ),
+                        ],
+                      ),
+                      startActionPane: ActionPane(
+                        dragDismissible: false,
+                        motion: const DrawerMotion(),
+                        dismissible: DismissiblePane(onDismissed: () {}),
+                        children: <Widget>[
+                          SlidableAction(
+                            onPressed: (_) {
+                              currentData.savedCategories.removeAt(index);
+                              currentData.notifyListeners();
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            icon: Icons.delete,
+                            label: 'Delete',
+                          ),
+                        ],
+                      ),
+                      child: CategoryItemUI(
+                        locationIndex: index,
+                        marginAmount:
+                            currentData.savedCategories[index].marginAmount,
+                        remainingAmount:
+                            currentData.savedCategories[index].remainingAmount,
+                        cardColor: currentData.savedCategories[index].color,
+                        categoryIcon: currentData.savedCategories[index].icon,
+                        categoryName: currentData.savedCategories[index].name,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
+              ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
