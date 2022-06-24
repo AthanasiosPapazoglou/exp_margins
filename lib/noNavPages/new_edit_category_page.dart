@@ -11,27 +11,21 @@ class NewOrEditCategoryPage extends StatefulWidget {
   const NewOrEditCategoryPage({
     Key? key,
     this.isEdit = false,
-    this.categoryLocationIndex = -1,
+    this.itemLocInd = -1,
   }) : super(key: key);
 
   final bool isEdit;
-  final int categoryLocationIndex;
+  final int itemLocInd;
 
   @override
   State<NewOrEditCategoryPage> createState() => _NewOrEditCategoryPageState();
 }
 
 TextEditingController _nameController = TextEditingController();
-String _selectedCategoryName = 'Category Name';
 
 TextEditingController _marginController = TextEditingController();
-double _selectedMarginAmount = 100.00;
 
 TextEditingController _remainingController = TextEditingController();
-double _selectedRemainingAmount = 50.00;
-
-Color _selectedCategoryColor = Colors.white;
-IconData _selectedCategoryIcon = Icons.account_circle_sharp;
 
 class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
   @override
@@ -46,28 +40,11 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
     //   _marginController.dispose();
     //   _remainingController.dispose();
     super.dispose();
-    _selectedCategoryName = 'Category Name';
-    _selectedMarginAmount = 100.00;
-    _selectedRemainingAmount = 50.00;
-    _selectedCategoryColor = Colors.white;
-    _selectedCategoryIcon = Icons.account_circle_sharp;
   }
 
   @override
   Widget build(BuildContext context) {
     final currentData = Provider.of<DataProviding>(context);
-    if (widget.isEdit && widget.categoryLocationIndex != -1) {
-      _selectedCategoryName =
-          currentData.savedCategories[widget.categoryLocationIndex].name;
-      _selectedMarginAmount = currentData
-          .savedCategories[widget.categoryLocationIndex].marginAmount;
-      _selectedRemainingAmount = currentData
-          .savedCategories[widget.categoryLocationIndex].remainingAmount;
-      _selectedCategoryColor =
-          currentData.savedCategories[widget.categoryLocationIndex].color;
-      _selectedCategoryIcon =
-          currentData.savedCategories[widget.categoryLocationIndex].icon;
-    }
 
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade900,
@@ -76,6 +53,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
+            currentData.savedCategories.removeLast();
             Navigator.pop(context);
           },
           child: Container(
@@ -94,12 +72,12 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
         children: <Widget>[
           pageSectionHeader('Preview'),
           CategoryItemUI(
-            locationIndex: widget.categoryLocationIndex,
-            marginAmount: _selectedMarginAmount,
-            remainingAmount: _selectedRemainingAmount,
-            cardColor: _selectedCategoryColor,
-            categoryIcon: _selectedCategoryIcon,
-            categoryName: _selectedCategoryName,
+            locationIndex: widget.itemLocInd,
+            marginAmount: currentData.savedCategories[widget.itemLocInd].marginAmount,
+            remainingAmount: currentData.savedCategories[widget.itemLocInd].remainingAmount,
+            cardColor: currentData.savedCategories[widget.itemLocInd].color,
+            categoryIcon: currentData.savedCategories[widget.itemLocInd].icon,
+            categoryName: currentData.savedCategories[widget.itemLocInd].name,
           ),
           pageSectionHeader('Edit'),
           nameSelectionRow(context, currentData),
@@ -107,20 +85,12 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
           colorSelectionRow(context, currentData),
           marginSelectionRow(context, currentData),
           remainingSelectionRow(context, currentData),
-          (_selectedCategoryName != null &&
-                  _selectedCategoryName != '' &&
-                  _selectedCategoryName != 'Category Name' &&
-                  _selectedMarginAmount >= _selectedRemainingAmount)
+          (currentData.savedCategories[widget.itemLocInd].name != null &&
+                  currentData.savedCategories[widget.itemLocInd].name != '' &&
+                  currentData.savedCategories[widget.itemLocInd].name != 'Category Name' &&
+                  currentData.savedCategories[widget.itemLocInd].marginAmount >= currentData.savedCategories[widget.itemLocInd].remainingAmount)
               ? GestureDetector(
                   onTap: () {
-                    currentData.savedCategories.add(
-                      CategoryItemDataEntity(
-                          name: _selectedCategoryName,
-                          color: _selectedCategoryColor,
-                          icon: _selectedCategoryIcon,
-                          marginAmount: _selectedMarginAmount,
-                          remainingAmount: _selectedRemainingAmount),
-                    );
                     currentData.notifyListeners();
                     Navigator.pop(context);
                   },
@@ -132,7 +102,9 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                         width: MediaQuery.of(context).size.width * .4,
                         child: Center(
                           child: Text(
-                            '+ Add Expense',
+                            (!widget.isEdit)
+                            ? '+ Add Expense'
+                            : 'Save & Return',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -197,7 +169,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                 onFieldSubmitted: (value) {
                   setState(
                     () {
-                      _selectedRemainingAmount = double.parse(value);
+                      currentData.savedCategories[widget.itemLocInd].remainingAmount = double.parse(value);
                       _remainingController.clear();
                     },
                   );
@@ -235,7 +207,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                 onFieldSubmitted: (value) {
                   setState(
                     () {
-                      _selectedMarginAmount = double.parse(value);
+                      currentData.savedCategories[widget.itemLocInd].marginAmount = double.parse(value);
                       _marginController.clear();
                     },
                   );
@@ -270,7 +242,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                   onTap: () {
                     setState(
                       () {
-                        _selectedCategoryIcon =
+                        currentData.savedCategories[widget.itemLocInd].icon =
                             currentData.availableIcons[index];
                       },
                     );
@@ -283,7 +255,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                       child: Icon(
                         currentData.availableIcons[index],
                         color: (currentData.availableIcons[index] ==
-                                _selectedCategoryIcon)
+                                currentData.savedCategories[widget.itemLocInd].icon)
                             ? Colors.green.shade400
                             : Colors.white,
                       ),
@@ -319,7 +291,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                 onFieldSubmitted: (value) {
                   setState(
                     () {
-                      _selectedCategoryName = value;
+                      currentData.savedCategories[widget.itemLocInd].name = value;
                       _nameController.clear();
                     },
                   );
@@ -354,7 +326,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                   onTap: () {
                     setState(
                       () {
-                        _selectedCategoryColor =
+                        currentData.savedCategories[widget.itemLocInd].color =
                             currentData.availableColors[index];
                       },
                     );
@@ -366,7 +338,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                       height: 30,
                       decoration: BoxDecoration(
                           border: (currentData.availableColors[index] ==
-                                  _selectedCategoryColor)
+                                  currentData.savedCategories[widget.itemLocInd].color)
                               ? Border.all(color: Colors.black, width: 2)
                               : null,
                           color: currentData.availableColors[index],

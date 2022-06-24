@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:exp_margins/constants/constants.dart';
+import 'package:exp_margins/models/category_model.dart';
 import 'package:exp_margins/noNavPages/new_edit_category_page.dart';
 import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +52,7 @@ class MarginsPage extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context) => NewOrEditCategoryPage(
                                     isEdit: true,
-                                    categoryLocationIndex: index,
+                                    itemLocInd: index,
                                   ),
                                 ),
                               );
@@ -99,10 +101,23 @@ class MarginsPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             onTap: () {
+              currentData.savedCategories.add(
+                CategoryItemDataEntity(
+                  name: kDefaultName,
+                  color: kDefaultColor,
+                  icon: kDefaultIcon,
+                  marginAmount: kDefaultMargin,
+                  remainingAmount: kDefaultRemaining,
+                ),
+              );
+              print('here here here: ${currentData.savedCategories.length}');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const NewOrEditCategoryPage()),
+                  builder: (context) => NewOrEditCategoryPage(
+                    itemLocInd: currentData.savedCategories.length - 1,
+                  ),
+                ),
               );
             },
             child: Container(
