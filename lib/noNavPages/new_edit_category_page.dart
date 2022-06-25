@@ -12,10 +12,12 @@ class NewOrEditCategoryPage extends StatefulWidget {
     Key? key,
     this.isEdit = false,
     this.itemLocInd = -1,
+    required this.preEditedCategoryItem,
   }) : super(key: key);
 
   final bool isEdit;
   final int itemLocInd;
+  final CategoryItemDataEntity preEditedCategoryItem;
 
   @override
   State<NewOrEditCategoryPage> createState() => _NewOrEditCategoryPageState();
@@ -53,8 +55,14 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            currentData.savedCategories.removeLast();
+            if (!widget.isEdit) {
+              currentData.savedCategories.removeLast();
+            } else {
+              currentData.savedCategories[widget.itemLocInd] =
+                  widget.preEditedCategoryItem;
+            }
             Navigator.pop(context);
+            currentData.notifyListeners();
           },
           child: Container(
             color: Colors.blueGrey.shade900,
@@ -73,8 +81,10 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
           pageSectionHeader('Preview'),
           CategoryItemUI(
             locationIndex: widget.itemLocInd,
-            marginAmount: currentData.savedCategories[widget.itemLocInd].marginAmount,
-            remainingAmount: currentData.savedCategories[widget.itemLocInd].remainingAmount,
+            marginAmount:
+                currentData.savedCategories[widget.itemLocInd].marginAmount,
+            remainingAmount:
+                currentData.savedCategories[widget.itemLocInd].remainingAmount,
             cardColor: currentData.savedCategories[widget.itemLocInd].color,
             categoryIcon: currentData.savedCategories[widget.itemLocInd].icon,
             categoryName: currentData.savedCategories[widget.itemLocInd].name,
@@ -87,8 +97,11 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
           remainingSelectionRow(context, currentData),
           (currentData.savedCategories[widget.itemLocInd].name != null &&
                   currentData.savedCategories[widget.itemLocInd].name != '' &&
-                  currentData.savedCategories[widget.itemLocInd].name != 'Category Name' &&
-                  currentData.savedCategories[widget.itemLocInd].marginAmount >= currentData.savedCategories[widget.itemLocInd].remainingAmount)
+                  currentData.savedCategories[widget.itemLocInd].name !=
+                      'Category Name' &&
+                  currentData.savedCategories[widget.itemLocInd].marginAmount >=
+                      currentData
+                          .savedCategories[widget.itemLocInd].remainingAmount)
               ? GestureDetector(
                   onTap: () {
                     currentData.notifyListeners();
@@ -103,8 +116,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                         child: Center(
                           child: Text(
                             (!widget.isEdit)
-                            ? '+ Add Expense'
-                            : 'Save & Return',
+                                ? '+ Add Expense'
+                                : 'Save & Return',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -169,7 +182,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                 onFieldSubmitted: (value) {
                   setState(
                     () {
-                      currentData.savedCategories[widget.itemLocInd].remainingAmount = double.parse(value);
+                      currentData.savedCategories[widget.itemLocInd]
+                          .remainingAmount = double.parse(value);
                       _remainingController.clear();
                     },
                   );
@@ -207,7 +221,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                 onFieldSubmitted: (value) {
                   setState(
                     () {
-                      currentData.savedCategories[widget.itemLocInd].marginAmount = double.parse(value);
+                      currentData.savedCategories[widget.itemLocInd]
+                          .marginAmount = double.parse(value);
                       _marginController.clear();
                     },
                   );
@@ -255,7 +270,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                       child: Icon(
                         currentData.availableIcons[index],
                         color: (currentData.availableIcons[index] ==
-                                currentData.savedCategories[widget.itemLocInd].icon)
+                                currentData
+                                    .savedCategories[widget.itemLocInd].icon)
                             ? Colors.green.shade400
                             : Colors.white,
                       ),
@@ -291,7 +307,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                 onFieldSubmitted: (value) {
                   setState(
                     () {
-                      currentData.savedCategories[widget.itemLocInd].name = value;
+                      currentData.savedCategories[widget.itemLocInd].name =
+                          value;
                       _nameController.clear();
                     },
                   );
@@ -338,7 +355,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                       height: 30,
                       decoration: BoxDecoration(
                           border: (currentData.availableColors[index] ==
-                                  currentData.savedCategories[widget.itemLocInd].color)
+                                  currentData
+                                      .savedCategories[widget.itemLocInd].color)
                               ? Border.all(color: Colors.black, width: 2)
                               : null,
                           color: currentData.availableColors[index],
