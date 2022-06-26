@@ -58,9 +58,9 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
     final currentData = Provider.of<DataProviding>(context);
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade900,
+      backgroundColor: kThemePrimaryColor,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey.shade900,
+        backgroundColor: kThemePrimaryColor,
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -78,8 +78,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
               currentData.savedCategories[widget.itemLocInd].remainingAmount =
                   widget.preEditedRemaining;
             }
-            Navigator.pop(context);
             currentData.notifyListeners();
+            Navigator.pop(context);
           },
           child: Container(
             color: Colors.blueGrey.shade900,

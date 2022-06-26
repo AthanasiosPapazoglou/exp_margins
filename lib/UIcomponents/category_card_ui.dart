@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, file_names
 
+import 'package:exp_margins/noNavPages/fast_flow_page.dart';
 import 'package:exp_margins/noNavPages/new_edit_category_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -26,6 +27,10 @@ class CategoryItemUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FastFlowChangePage()),
+        );
       },
       onDoubleTap: () {},
       child: Padding(
