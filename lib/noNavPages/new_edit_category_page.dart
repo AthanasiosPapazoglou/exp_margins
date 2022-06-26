@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:exp_margins/UIcomponents/category_card_ui.dart';
+import 'package:exp_margins/constants/constants.dart';
 import 'package:exp_margins/models/category_model.dart';
 import 'package:exp_margins/providers/data_provider.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +9,24 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class NewOrEditCategoryPage extends StatefulWidget {
-  const NewOrEditCategoryPage({
-    Key? key,
-    this.isEdit = false,
-    this.itemLocInd = -1,
-    required this.preEditedCategoryItem,
-  }) : super(key: key);
+  const NewOrEditCategoryPage(
+      {Key? key,
+      this.isEdit = false,
+      this.itemLocInd = -1,
+      this.preEditedName = kDefaultName,
+      this.preEditedColor = kDefaultColor,
+      this.preEditedIcon = kDefaultIcon,
+      this.preEditedMargin = kDefaultMargin,
+      this.preEditedRemaining = kDefaultRemaining})
+      : super(key: key);
 
   final bool isEdit;
   final int itemLocInd;
-  final CategoryItemDataEntity preEditedCategoryItem;
+  final String preEditedName;
+  final Color preEditedColor;
+  final IconData preEditedIcon;
+  final double preEditedMargin;
+  final double preEditedRemaining;
 
   @override
   State<NewOrEditCategoryPage> createState() => _NewOrEditCategoryPageState();
@@ -58,8 +67,16 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
             if (!widget.isEdit) {
               currentData.savedCategories.removeLast();
             } else {
-              currentData.savedCategories[widget.itemLocInd] =
-                  widget.preEditedCategoryItem;
+              currentData.savedCategories[widget.itemLocInd].name =
+                  widget.preEditedName;
+              currentData.savedCategories[widget.itemLocInd].color =
+                  widget.preEditedColor;
+              currentData.savedCategories[widget.itemLocInd].icon =
+                  widget.preEditedIcon;
+              currentData.savedCategories[widget.itemLocInd].marginAmount =
+                  widget.preEditedMargin;
+              currentData.savedCategories[widget.itemLocInd].remainingAmount =
+                  widget.preEditedRemaining;
             }
             Navigator.pop(context);
             currentData.notifyListeners();

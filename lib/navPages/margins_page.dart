@@ -53,7 +53,11 @@ class MarginsPage extends StatelessWidget {
                                   builder: (context) => NewOrEditCategoryPage(
                                     isEdit: true,
                                     itemLocInd: index,
-                                    preEditedCategoryItem: currentData.savedCategories[index],
+                                    preEditedName: currentData.savedCategories[index].name,
+                                    preEditedColor: currentData.savedCategories[index].color,
+                                    preEditedIcon: currentData.savedCategories[index].icon,
+                                    preEditedMargin: currentData.savedCategories[index].marginAmount,
+                                    preEditedRemaining: currentData.savedCategories[index].remainingAmount,
                                   ),
                                 ),
                               );
@@ -117,7 +121,6 @@ class MarginsPage extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => NewOrEditCategoryPage(
                     itemLocInd: currentData.savedCategories.length - 1,
-                    preEditedCategoryItem: currentData.savedCategories.last,
                   ),
                 ),
               );
