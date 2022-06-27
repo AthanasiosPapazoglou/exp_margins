@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../UIcomponents/category_card_ui.dart';
+import '../noNavPages/fast_flow_page.dart';
 
 class MarginsPage extends StatelessWidget {
   MarginsPage({Key? key}) : super(key: key);
@@ -53,11 +54,16 @@ class MarginsPage extends StatelessWidget {
                                   builder: (context) => NewOrEditCategoryPage(
                                     isEdit: true,
                                     itemLocInd: index,
-                                    preEditedName: currentData.savedCategories[index].name,
-                                    preEditedColor: currentData.savedCategories[index].color,
-                                    preEditedIcon: currentData.savedCategories[index].icon,
-                                    preEditedMargin: currentData.savedCategories[index].marginAmount,
-                                    preEditedRemaining: currentData.savedCategories[index].remainingAmount,
+                                    preEditedName:
+                                        currentData.savedCategories[index].name,
+                                    preEditedColor: currentData
+                                        .savedCategories[index].color,
+                                    preEditedIcon:
+                                        currentData.savedCategories[index].icon,
+                                    preEditedMargin: currentData
+                                        .savedCategories[index].marginAmount,
+                                    preEditedRemaining: currentData
+                                        .savedCategories[index].remainingAmount,
                                   ),
                                 ),
                               );
@@ -88,15 +94,24 @@ class MarginsPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: CategoryItemUI(
-                        locationIndex: index,
-                        marginAmount:
-                            currentData.savedCategories[index].marginAmount,
-                        remainingAmount:
-                            currentData.savedCategories[index].remainingAmount,
-                        cardColor: currentData.savedCategories[index].color,
-                        categoryIcon: currentData.savedCategories[index].icon,
-                        categoryName: currentData.savedCategories[index].name,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FastFlowChangePage()),
+                          );
+                        },
+                        child: CategoryItemUI(
+                          locationIndex: index,
+                          marginAmount:
+                              currentData.savedCategories[index].marginAmount,
+                          remainingAmount: currentData
+                              .savedCategories[index].remainingAmount,
+                          cardColor: currentData.savedCategories[index].color,
+                          categoryIcon: currentData.savedCategories[index].icon,
+                          categoryName: currentData.savedCategories[index].name,
+                        ),
                       ),
                     );
                   },
