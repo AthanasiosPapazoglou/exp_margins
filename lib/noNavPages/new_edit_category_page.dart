@@ -60,17 +60,14 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
 
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
-        print('Start');
         triggerPoint = details.globalPosition;
       },
       onHorizontalDragUpdate: (DragUpdateDetails details) {
-        print(details.globalPosition);
         if (triggerPoint.dx < details.globalPosition.dx - 50) {
           Navigator.pop(context);
         }
       },
       onHorizontalDragEnd: (DragEndDetails details) {
-        print('End');
         triggerPoint = null;
       },
       child: Scaffold(
@@ -116,8 +113,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
               locationIndex: widget.itemLocInd,
               marginAmount:
                   currentData.savedCategories[widget.itemLocInd].marginAmount,
-              remainingAmount:
-                  currentData.savedCategories[widget.itemLocInd].remainingAmount,
+              remainingAmount: currentData
+                  .savedCategories[widget.itemLocInd].remainingAmount,
               cardColor: currentData.savedCategories[widget.itemLocInd].color,
               categoryIcon: currentData.savedCategories[widget.itemLocInd].icon,
               categoryName: currentData.savedCategories[widget.itemLocInd].name,
@@ -132,7 +129,8 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                     currentData.savedCategories[widget.itemLocInd].name != '' &&
                     currentData.savedCategories[widget.itemLocInd].name !=
                         'Category Name' &&
-                    currentData.savedCategories[widget.itemLocInd].marginAmount >=
+                    currentData
+                            .savedCategories[widget.itemLocInd].marginAmount >=
                         currentData
                             .savedCategories[widget.itemLocInd].remainingAmount)
                 ? GestureDetector(
