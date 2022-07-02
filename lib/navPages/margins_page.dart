@@ -99,7 +99,10 @@ class MarginsPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FastFlowChangePage()),
+                              builder: (context) => FastFlowChangePage(
+                                itemLocInd: index,
+                              ),
+                            ),
                           );
                         },
                         child: CategoryItemUI(
