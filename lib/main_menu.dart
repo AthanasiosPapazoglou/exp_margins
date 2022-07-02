@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'navPages/margins_page.dart';
 
 class MainMenu extends StatefulWidget {
-  const MainMenu({Key? key}) : super(key: key);
+  const MainMenu({Key key}) : super(key: key);
 
   @override
   State<MainMenu> createState() => _MainMenuState();

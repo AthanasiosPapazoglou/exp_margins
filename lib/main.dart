@@ -9,7 +9,7 @@ void main() {
 }
 
 class ExpenseMargins extends StatelessWidget {
-  const ExpenseMargins({Key? key}) : super(key: key);
+  const ExpenseMargins({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

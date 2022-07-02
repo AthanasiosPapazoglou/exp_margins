@@ -8,10 +8,10 @@ class CategoryItemDataEntity{
   double remainingAmount;
 
 CategoryItemDataEntity({
-required this.name,
-required this.color,
-required this.icon,
-required this.marginAmount,
-required this.remainingAmount,
+@required this.name,
+@required this.color,
+@required this.icon,
+@required this.marginAmount,
+@required this.remainingAmount,
 });
 }

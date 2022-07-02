@@ -13,7 +13,7 @@ import '../UIcomponents/category_card_ui.dart';
 import '../noNavPages/fast_flow_page.dart';
 
 class MarginsPage extends StatelessWidget {
-  MarginsPage({Key? key}) : super(key: key);
+  MarginsPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

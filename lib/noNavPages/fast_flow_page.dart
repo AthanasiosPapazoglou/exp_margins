@@ -7,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../constants/constants.dart';
 
 class FastFlowChangePage extends StatelessWidget {
-  const FastFlowChangePage({Key? key}) : super(key: key);
+  const FastFlowChangePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class NewOrEditCategoryPage extends StatefulWidget {
   const NewOrEditCategoryPage(
-      {Key? key,
+      {Key key,
       this.isEdit = false,
       this.itemLocInd = -1,
       this.preEditedName = kDefaultName,
@@ -39,6 +39,7 @@ TextEditingController _marginController = TextEditingController();
 TextEditingController _remainingController = TextEditingController();
 
 class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
+  Offset triggerPoint;
   @override
   void initState() {
     super.initState();
@@ -57,74 +58,113 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
   Widget build(BuildContext context) {
     final currentData = Provider.of<DataProviding>(context);
 
-    return Scaffold(
-      backgroundColor: kThemePrimaryColor,
-      appBar: AppBar(
+    return GestureDetector(
+      onHorizontalDragStart: (DragStartDetails details) {
+        print('Start');
+        triggerPoint = details.globalPosition;
+      },
+      onHorizontalDragUpdate: (DragUpdateDetails details) {
+        print(details.globalPosition);
+        if (triggerPoint.dx < details.globalPosition.dx - 50) {
+          Navigator.pop(context);
+        }
+      },
+      onHorizontalDragEnd: (DragEndDetails details) {
+        print('End');
+        triggerPoint = null;
+      },
+      child: Scaffold(
         backgroundColor: kThemePrimaryColor,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            if (!widget.isEdit) {
-              currentData.savedCategories.removeLast();
-            } else {
-              currentData.savedCategories[widget.itemLocInd].name =
-                  widget.preEditedName;
-              currentData.savedCategories[widget.itemLocInd].color =
-                  widget.preEditedColor;
-              currentData.savedCategories[widget.itemLocInd].icon =
-                  widget.preEditedIcon;
-              currentData.savedCategories[widget.itemLocInd].marginAmount =
-                  widget.preEditedMargin;
-              currentData.savedCategories[widget.itemLocInd].remainingAmount =
-                  widget.preEditedRemaining;
-            }
-            currentData.notifyListeners();
-            Navigator.pop(context);
-          },
-          child: Container(
-            color: Colors.blueGrey.shade900,
-            height: 30,
-            width: 30,
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: kThemePrimaryColor,
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () {
+              if (!widget.isEdit) {
+                currentData.savedCategories.removeLast();
+              } else {
+                currentData.savedCategories[widget.itemLocInd].name =
+                    widget.preEditedName;
+                currentData.savedCategories[widget.itemLocInd].color =
+                    widget.preEditedColor;
+                currentData.savedCategories[widget.itemLocInd].icon =
+                    widget.preEditedIcon;
+                currentData.savedCategories[widget.itemLocInd].marginAmount =
+                    widget.preEditedMargin;
+                currentData.savedCategories[widget.itemLocInd].remainingAmount =
+                    widget.preEditedRemaining;
+              }
+              currentData.notifyListeners();
+              Navigator.pop(context);
+            },
+            child: Container(
+              color: Colors.blueGrey.shade900,
+              height: 30,
+              width: 30,
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
-      ),
-      body: ListView(
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          pageSectionHeader('Preview'),
-          CategoryItemUI(
-            locationIndex: widget.itemLocInd,
-            marginAmount:
-                currentData.savedCategories[widget.itemLocInd].marginAmount,
-            remainingAmount:
-                currentData.savedCategories[widget.itemLocInd].remainingAmount,
-            cardColor: currentData.savedCategories[widget.itemLocInd].color,
-            categoryIcon: currentData.savedCategories[widget.itemLocInd].icon,
-            categoryName: currentData.savedCategories[widget.itemLocInd].name,
-          ),
-          pageSectionHeader('Edit'),
-          nameSelectionRow(context, currentData),
-          iconSelectionRow(context, currentData),
-          colorSelectionRow(context, currentData),
-          marginSelectionRow(context, currentData),
-          remainingSelectionRow(context, currentData),
-          (currentData.savedCategories[widget.itemLocInd].name != null &&
-                  currentData.savedCategories[widget.itemLocInd].name != '' &&
-                  currentData.savedCategories[widget.itemLocInd].name !=
-                      'Category Name' &&
-                  currentData.savedCategories[widget.itemLocInd].marginAmount >=
-                      currentData
-                          .savedCategories[widget.itemLocInd].remainingAmount)
-              ? GestureDetector(
-                  onTap: () {
-                    currentData.notifyListeners();
-                    Navigator.pop(context);
-                  },
-                  child: Center(
+        body: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            pageSectionHeader('Preview'),
+            CategoryItemUI(
+              locationIndex: widget.itemLocInd,
+              marginAmount:
+                  currentData.savedCategories[widget.itemLocInd].marginAmount,
+              remainingAmount:
+                  currentData.savedCategories[widget.itemLocInd].remainingAmount,
+              cardColor: currentData.savedCategories[widget.itemLocInd].color,
+              categoryIcon: currentData.savedCategories[widget.itemLocInd].icon,
+              categoryName: currentData.savedCategories[widget.itemLocInd].name,
+            ),
+            pageSectionHeader('Edit'),
+            nameSelectionRow(context, currentData),
+            iconSelectionRow(context, currentData),
+            colorSelectionRow(context, currentData),
+            marginSelectionRow(context, currentData),
+            remainingSelectionRow(context, currentData),
+            (currentData.savedCategories[widget.itemLocInd].name != null &&
+                    currentData.savedCategories[widget.itemLocInd].name != '' &&
+                    currentData.savedCategories[widget.itemLocInd].name !=
+                        'Category Name' &&
+                    currentData.savedCategories[widget.itemLocInd].marginAmount >=
+                        currentData
+                            .savedCategories[widget.itemLocInd].remainingAmount)
+                ? GestureDetector(
+                    onTap: () {
+                      currentData.notifyListeners();
+                      Navigator.pop(context);
+                    },
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: Container(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width * .4,
+                          child: Center(
+                            child: Text(
+                              (!widget.isEdit)
+                                  ? '+ Add Expense'
+                                  : 'Save & Return',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.green.shade400,
+                              borderRadius: BorderRadius.circular(20)),
+                        ),
+                      ),
+                    ),
+                  )
+                : Center(
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: Container(
@@ -132,9 +172,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                         width: MediaQuery.of(context).size.width * .4,
                         child: Center(
                           child: Text(
-                            (!widget.isEdit)
-                                ? '+ Add Expense'
-                                : 'Save & Return',
+                            '+ Add Expense',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -142,34 +180,13 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
                           ),
                         ),
                         decoration: BoxDecoration(
-                            color: Colors.green.shade400,
+                            color: Colors.grey,
                             borderRadius: BorderRadius.circular(20)),
                       ),
                     ),
-                  ),
-                )
-              : Center(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                    child: Container(
-                      height: 48,
-                      width: MediaQuery.of(context).size.width * .4,
-                      child: Center(
-                        child: Text(
-                          '+ Add Expense',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                  ),
-                )
-        ],
+                  )
+          ],
+        ),
       ),
     );
   }

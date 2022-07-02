@@ -7,13 +7,13 @@ import 'dart:math';
 
 class CategoryItemUI extends StatelessWidget {
   const CategoryItemUI({
-    Key? key,
-    required this.locationIndex,
-    required this.marginAmount,
-    required this.remainingAmount,
-    required this.cardColor,
-    required this.categoryIcon,
-    required this.categoryName,
+    Key key,
+    @required this.locationIndex,
+    @required this.marginAmount,
+    @required this.remainingAmount,
+    @required this.cardColor,
+    @required this.categoryIcon,
+    @required this.categoryName,
   }) : super(key: key);
 
   final int locationIndex;
@@ -45,7 +45,7 @@ class CategoryItemUI extends StatelessWidget {
               duration: Duration(milliseconds: 1500),
               tween: Tween<double>(
                   begin: 1.0, end: remainingAmount / marginAmount),
-              builder: (BuildContext context, double val1, Widget? child) {
+              builder: (BuildContext context, double val1, Widget child) {
                 return Container(
                   width: MediaQuery.of(context).size.width * val1,
                   height: 64,
@@ -81,7 +81,7 @@ class CategoryItemUI extends StatelessWidget {
                   tween: Tween<double>(
                       begin: marginAmount, end: remainingAmount),
                   builder:
-                      (BuildContext context, double val2, Widget? child) {
+                      (BuildContext context, double val2, Widget child) {
                     String displayValue = val2.toStringAsFixed(2);
                     return Text(
                       '$displayValue/$marginAmount',
