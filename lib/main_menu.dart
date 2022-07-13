@@ -3,6 +3,7 @@
 import 'dart:ffi';
 
 import 'package:exp_margins/navPages/flows_page.dart';
+import 'package:exp_margins/navPages/statistics_page.dart';
 import 'package:flutter/material.dart';
 
 import 'navPages/margins_page.dart';
@@ -33,6 +34,7 @@ class _MainMenuState extends State<MainMenu> {
     final tabs = {
       'MarginsPage': MarginsPage(),
       'FlowsPage': FlowsPage(),
+      'StatisticsPage': StatisticsPage(),
       'ProfilePage': ProfilePage(),
     };
     return Scaffold(
@@ -60,6 +62,10 @@ class _MainMenuState extends State<MainMenu> {
               Icons.swap_horiz,
             ),
             label: 'Flows',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.analytics_outlined),
+            label: 'Statistics'
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
