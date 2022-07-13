@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:exp_margins/constants/constants.dart';
 import 'package:exp_margins/models/category_model.dart';
 import 'package:exp_margins/noNavPages/new_edit_category_page.dart';
@@ -144,15 +146,35 @@ class MarginsPage extends StatelessWidget {
               );
             },
             child: Container(
-              child: Icon(
-                Icons.add,
-                size: 30,
-                color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Center(
+                      child: Text(
+                        '+',
+                        style:
+                            TextStyle(color: Colors.green.shade400, fontSize: 15),
+                      ),
+                    ),
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(90),
+                    ),
+                  ),
+                  SizedBox(width: 6,),
+                  Text(
+                    'Add Margin',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ],
               ),
-              height: 54,
-              width: 54,
+              height: 35,
+              width: 140,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(90),
+                  borderRadius: BorderRadius.circular(20),
                   color: Colors.green.shade400),
             ),
           ),

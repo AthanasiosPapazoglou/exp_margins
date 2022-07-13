@@ -95,11 +95,6 @@ class _FastFlowChangePageState extends State<FastFlowChangePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Text(
-                        //   '-',
-                        //   style: TextStyle(color: Colors.white, fontSize: 30),
-                        // ),
-                        // SizedBox(width: 5,),
                         Text(
                           'Decrement Flow',
                           style: TextStyle(color: Colors.white, fontSize: 20),
@@ -122,11 +117,6 @@ class _FastFlowChangePageState extends State<FastFlowChangePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Text(
-                        //   '+',
-                        //   style: TextStyle(color: Colors.white, fontSize: 30),
-                        // ),
-                        // SizedBox(width: 5,),
                         Text(
                           'Increment Flow',
                           style: TextStyle(color: Colors.white, fontSize: 20),
