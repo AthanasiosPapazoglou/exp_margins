@@ -23,10 +23,28 @@ class MarginsPage extends StatelessWidget {
     final currentData = Provider.of<DataProviding>(context);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add_circle_outline_rounded,
+          color: Colors.white,
+          size: 35,
+        ),
+        backgroundColor: Colors.green.shade400,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NewOrEditCategoryPage(
+                itemLocInd: currentData.savedCategories.length - 1,
+              ),
+            ),
+          );
+        },
+      ),
       appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(48),
-            child: StockAppBar(text: 'Margins'),
-          ),
+        preferredSize: const Size.fromHeight(48),
+        child: StockAppBar(text: 'Margins'),
+      ),
       body: Column(
         children: [
           (currentData.savedCategories.length == 0)
@@ -59,8 +77,7 @@ class MarginsPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        NewOrEditCategoryPage(
+                                    builder: (context) => NewOrEditCategoryPage(
                                       isEdit: true,
                                       itemLocInd: index,
                                       preEditedName: currentData
@@ -70,8 +87,7 @@ class MarginsPage extends StatelessWidget {
                                       preEditedIcon: currentData
                                           .savedCategories[index].icon,
                                       preEditedMargin: currentData
-                                          .savedCategories[index]
-                                          .marginAmount,
+                                          .savedCategories[index].marginAmount,
                                       preEditedRemaining: currentData
                                           .savedCategories[index]
                                           .remainingAmount,
@@ -118,12 +134,11 @@ class MarginsPage extends StatelessWidget {
                           },
                           child: CategoryItemUI(
                             locationIndex: index,
-                            marginAmount: currentData
-                                .savedCategories[index].marginAmount,
+                            marginAmount:
+                                currentData.savedCategories[index].marginAmount,
                             remainingAmount: currentData
                                 .savedCategories[index].remainingAmount,
-                            cardColor:
-                                currentData.savedCategories[index].color,
+                            cardColor: currentData.savedCategories[index].color,
                             categoryIcon:
                                 currentData.savedCategories[index].icon,
                             categoryName:
@@ -134,66 +149,66 @@ class MarginsPage extends StatelessWidget {
                     },
                   ),
                 ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                currentData.savedCategories.add(
-                  CategoryItemDataEntity(
-                    name: kDefaultName,
-                    color: kDefaultColor,
-                    icon: kDefaultIcon,
-                    marginAmount: kDefaultMargin,
-                    remainingAmount: kDefaultRemaining,
-                  ),
-                );
-                print(
-                    'here here here: ${currentData.savedCategories.length}');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NewOrEditCategoryPage(
-                      itemLocInd: currentData.savedCategories.length - 1,
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Center(
-                        child: Text(
-                          '+',
-                          style: TextStyle(
-                              color: Colors.green.shade400, fontSize: 15),
-                        ),
-                      ),
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(90),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Text(
-                      'Add Margin',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                  ],
-                ),
-                height: 35,
-                width: 140,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.green.shade400),
-              ),
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       currentData.savedCategories.add(
+          //         CategoryItemDataEntity(
+          //           name: kDefaultName,
+          //           color: kDefaultColor,
+          //           icon: kDefaultIcon,
+          //           marginAmount: kDefaultMargin,
+          //           remainingAmount: kDefaultRemaining,
+          //         ),
+          //       );
+          //       print(
+          //           'here here here: ${currentData.savedCategories.length}');
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => NewOrEditCategoryPage(
+          //       itemLocInd: currentData.savedCategories.length - 1,
+          //     ),
+          //   ),
+          // );
+          //     },
+          //     child: Container(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Container(
+          //             child: Center(
+          //               child: Text(
+          //                 '+',
+          //                 style: TextStyle(
+          //                     color: Colors.green.shade400, fontSize: 15),
+          //               ),
+          //             ),
+          //             width: 20,
+          //             height: 20,
+          //             decoration: BoxDecoration(
+          //               color: Colors.white,
+          //               borderRadius: BorderRadius.circular(90),
+          //             ),
+          //           ),
+          //           SizedBox(
+          //             width: 6,
+          //           ),
+          //           Text(
+          //             'Add Margin',
+          //             style: TextStyle(color: Colors.white, fontSize: 15),
+          //           ),
+          //         ],
+          //       ),
+          //       height: 35,
+          //       width: 140,
+          //       decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(20),
+          //           color: Colors.green.shade400),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

@@ -104,6 +104,7 @@ class _NewOrEditCategoryPageState extends State<NewOrEditCategoryPage> {
               ),
             ),
           ),
+          title: Text('Create or Edit Expense', style: TextStyle(color: Colors.white, fontSize: 20),),
         ),
         body: ListView(
           //crossAxisAlignment: CrossAxisAlignment.start,
